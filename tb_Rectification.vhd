@@ -227,8 +227,8 @@ architecture TESTBENCH of TB_RECTIFICATION is
 
   signal w_reset_n                                                : std_logic;
 
-  constant c_filename_image1                                      : string := "C:\Users\Schul\Entwicklung\QuartusProjekte\Abschlussprojekt\bild1_sw.csv";
-  constant c_filename_out                                         : string := "C:\Users\Schul\Entwicklung\QuartusProjekte\Abschlussprojekt\Rectification\out.ppm";
+  constant c_filename_image1                                      : string := "SOURCE.csv";
+  constant c_filename_out                                         : string := "TARGET.ppm";
 
   constant c_left_range                                           : integer := 16;
   constant c_right_range                                          : integer := -13;
@@ -462,11 +462,6 @@ begin
         w_i_y                 <= c_0;
         w_use_inverse         <= '0';
 
-      -- w_sdram_writedata(31 downto 0) <= (others => '0');
-      -- w_sdram_req                    <= '0';
-      -- w_sdram_we                     <= '0';
-      -- w_sdram_addr                   <= (others => '0');
-
       when WAIT_FOR_READY =>
 
         if (w_sdram_initialized = '1') then
@@ -474,11 +469,6 @@ begin
         else
           w_next_state <= WAIT_FOR_READY;
         end if;
-
-        -- w_sdram_writedata(31 downto 0) <= (others => '0');
-        -- w_sdram_req                    <= '0';
-        -- w_sdram_we                     <= '0';
-        -- w_sdram_addr                   <= (others => '0');
 
         w_start_rectification <= '0';
         w_i_x                 <= c_0;
@@ -489,17 +479,11 @@ begin
       when STORE_ORIGINAL_IMAGE =>
 
         if (r_current_original_write_col = c_original_image_width - 1 and r_current_original_write_row = c_original_image_height - 1) then
-        -- if (r_original_image_write_pointer = 307200) then
+
           w_next_state <= CALCULATE_TARGET_AREA;
         else
           w_next_state <= STORE_ORIGINAL_IMAGE;
         end if;
-
-        -- w_sdram_writedata(31 downto 8) <= (others => '0');
-        -- w_sdram_writedata(7 downto 0)  <= r_pixel;
-        -- w_sdram_req                    <= '1';
-        -- w_sdram_we                     <= '1';
-        -- w_sdram_addr                   <= std_logic_vector(to_unsigned(r_original_image_write_pointer, w_sdram_addr'length));
 
         w_start_rectification <= '0';
         w_i_x                 <= c_0;
@@ -546,12 +530,7 @@ begin
         w_i_x         <= c_639;
         w_i_y         <= c_0;
         w_use_inverse <= '0';
-
-      -- w_sdram_writedata(31 downto 0) <= (others => '0');
-      -- w_sdram_req                    <= '0';
-      -- w_sdram_we                     <= '0';
-      -- w_sdram_addr                   <= (others => '0');
-
+                                            
       when CALCULATE_LEFT_LOWER =>
 
         if (w_rect_valid = '1') then
@@ -569,11 +548,6 @@ begin
         w_i_x         <= c_0;
         w_i_y         <= c_479;
         w_use_inverse <= '0';
-
-      -- w_sdram_writedata(31 downto 0) <= (others => '0');
-      -- w_sdram_req                    <= '0';
-      -- w_sdram_we                     <= '0';
-      -- w_sdram_addr                   <= (others => '0');
 
       when CALCULATE_RIGHT_LOWER =>
 
@@ -593,11 +567,6 @@ begin
         w_i_y         <= c_479;
         w_use_inverse <= '0';
 
-      -- w_sdram_writedata(31 downto 0) <= (others => '0');
-      -- w_sdram_req                    <= '0';
-      -- w_sdram_we                     <= '0';
-      -- w_sdram_addr                   <= (others => '0');
-
       when CALCULATE_TARGET_AREA =>
         w_next_state <= LOAD_OLD_COORDINATE;
 
@@ -605,11 +574,6 @@ begin
         w_i_x                 <= c_0;
         w_i_y                 <= c_0;
         w_use_inverse         <= '0';
-
-      -- w_sdram_writedata(31 downto 0) <= (others => '0');
-      -- w_sdram_req                    <= '0';
-      -- w_sdram_we                     <= '0';
-      -- w_sdram_addr                   <= (others => '0');
 
       when LOAD_OLD_COORDINATE =>
 
@@ -629,21 +593,11 @@ begin
         w_i_y         <= r_current_new_y;
         w_use_inverse <= '1';
 
-      -- w_sdram_writedata(31 downto 0) <= (others => '0');
-      -- w_sdram_req                    <= '0';
-      -- w_sdram_we                     <= '0';
-      -- w_sdram_addr                   <= (others => '0');
-
       when LOAD_OLD_PIXEL =>
 
       if(w_rect_ack = '1') then
         w_next_state <= WRITE_NEW_PIXEL;
       end if;
-        -- if (w_sdram_rdval = '1') then
-        --   w_next_state <= WRITE_NEW_PIXEL;
-        -- else
-        --   w_next_state <= LOAD_OLD_PIXEL;
-        -- end if;
 
         if (r_lock_start = '0') then
           w_start_rectification <= '1';
@@ -655,15 +609,9 @@ begin
         w_i_y         <= r_next_new_y;
         w_use_inverse <= '1';
 
-      -- w_sdram_writedata(31 downto 0) <= (others => '0');
-      -- w_sdram_req                    <= '1';
-      -- w_sdram_we                     <= '0';
-      -- w_sdram_addr                   <= std_logic_vector(to_unsigned(w_old_coordinate_lut, w_sdram_addr'length));
-
       when WRITE_NEW_PIXEL =>
 
         if (r_next_old_coordinate_ready = '1') then
-        -- if (r_ram_write_finished = '1' and r_next_old_coordinate_ready = '1') then
           if (r_current_new_x = r_target_area_x_end and r_current_new_y = r_target_area_y_end) then
             w_next_state <= WRITE_TO_FILE;
           else
@@ -678,33 +626,16 @@ begin
         w_i_y                 <= c_0;
         w_use_inverse         <= '0';
 
-      -- w_sdram_writedata(31 downto 8) <= (others => '0');
-      -- w_sdram_writedata(7 downto 0)  <= r_old_pixel;
-      -- w_sdram_req                    <= '1';
-      -- w_sdram_we                     <= '1';
-      -- w_sdram_addr                   <= std_logic_vector(to_unsigned(w_new_coordinate_lut + 307200, w_sdram_addr'length));
-
       when WRITE_TO_FILE =>
 
         if (r_current_file_write_column = 639 and r_current_file_write_row = 479) then
-        -- if (r_current_file_write_column = 639 and r_current_file_write_row = 479 and w_sdram_rdval = '1') then
           w_next_state <= FINISHED;
         else
           w_next_state <= WRITE_TO_FILE;
         end if;
 
-      -- w_sdram_writedata(31 downto 0) <= (others => '0');
-      -- w_sdram_req                    <= '1';
-      -- w_sdram_we                     <= '0';
-      -- w_sdram_addr                   <= std_logic_vector(to_unsigned(w_file_write_lut + 307200, w_sdram_addr'length));
-
       when FINISHED =>
         w_next_state <= FINISHED;
-
-        -- w_sdram_writedata(31 downto 0) <= (others => '0');
-        -- w_sdram_req                    <= '1';
-        -- w_sdram_we                     <= '0';
-        -- w_sdram_addr                   <= std_logic_vector(to_unsigned(w_file_write_lut + 307200, w_sdram_addr'length));
 
         w_start_rectification <= '0';
         w_i_x                 <= c_0;
@@ -961,8 +892,6 @@ begin
           end if;
 
         when WRITE_TO_FILE =>
-
-          -- if (w_sdram_rdval = '1') then
             if (r_current_file_write_column < 639) then
               r_current_file_write_column <= r_current_file_write_column + 1;
             else
@@ -978,7 +907,6 @@ begin
             end if;
 
             write(line_out, to_integer(unsigned(result_image(r_current_file_write_row, r_current_file_write_column))));
-            -- write(line_out, to_integer(unsigned(w_sdram_readdata(7 downto 0))));
 
             if (r_current_file_write_column = 639) then
               writeline(fptr, line_out);
