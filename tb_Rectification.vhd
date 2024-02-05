@@ -12,31 +12,6 @@ architecture TESTBENCH of TB_RECTIFICATION is
 
   component RECTIFICATION is
     generic (
-      -- G_H_11     : sfixed(16 downto -13) := to_sfixed(-0.0083, 16, -13);
-      -- G_H_12     : sfixed(16 downto -13) := to_sfixed(0.00005902, 16, -13);
-      -- G_H_13     : sfixed(16 downto -13) := to_sfixed(-0.9984, 16, -13);
-
-      -- G_H_21     : sfixed(16 downto -13) := to_sfixed(-0.00015862, 16, -13);
-      -- G_H_22     : sfixed(16 downto -13) := to_sfixed(-0.0083, 16, -13);
-      -- G_H_23     : sfixed(16 downto -13) := to_sfixed(-0.0547, 16, -13);
-
-      -- G_H_31     : sfixed(16 downto -13) := to_sfixed(-0.00000043221, 16, -13);
-      -- G_H_32     : sfixed(16 downto -13) := to_sfixed(-0.000000061932, 16, -13);
-      -- G_H_33     : sfixed(16 downto -13) := to_sfixed(-0.0081, 16, -13);
-
-      -- G_H_INV_11 : sfixed(16 downto -13) := to_sfixed(-121.042, 16, -13);
-      -- G_H_INV_12 : sfixed(16 downto -13) := to_sfixed(-0.9748, 16, -13);
-      -- G_H_INV_13 : sfixed(16 downto -13) := to_sfixed(14918, 16, -13);
-
-      -- G_H_INV_21 : sfixed(16 downto -13) := to_sfixed(2.2774, 16, -13);
-      -- G_H_INV_22 : sfixed(16 downto -13) := to_sfixed(-120.8159, 16, -13);
-      -- G_H_INV_23 : sfixed(16 downto -13) := to_sfixed(534.7015, 16, -13);
-
-      -- G_H_INV_31 : sfixed(16 downto -13) := to_sfixed(0.0064, 16, -13);
-      -- G_H_INV_32 : sfixed(16 downto -13) := to_sfixed(0.00097522, 16, -13);
-      -- G_H_INV_33 : sfixed(16 downto -13) := to_sfixed(-124.1868, 16, -13)
-
-      --
 
       G_H_11 : sfixed(16 downto -15) := to_sfixed(-0.01185545, 16, -15);
       G_H_12 : sfixed(16 downto -15) := to_sfixed(0.00012253, 16, -15);
